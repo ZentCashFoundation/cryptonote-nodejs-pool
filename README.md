@@ -173,4 +173,204 @@ Copy the `config_examples/COIN.json` file of your choice to `config.json` then o
 
 Explanation for each field:
 ```javascript
+{
+    /* Pool host displayed in notifications and front-end */
+    "poolHost": "your.pool.host", 
+    
+    /* Used for storage in redis so multiple coins can share the same redis instance. */
+    /* Must match the parentCoin variable in config.js */
+    "coin": "Zent", 
+    
+    /* Used for front-end display */
+    "symbol": "ZTC",
+
+    /* Number of coin decimals places for notifications and front-end */
+    "coinDecimalPlaces": 2, 
+    /* Coin network time to mine one block, see DIFFICULTY_TARGET constant in DAEMON_CODE/src/cryptonote_config.h */
+    "coinDifficultyTarget": 60, 
+    
+    //used on blocks page to generate hyperlinks.
+    "blockchainExplorer": "http://explorer.zent.cash/?hash={id}#blockchain_block",
+    
+    /* Used on the payments page to generate hyperlinks */
+    "transactionExplorer": "http://explorer.zent.cash/?hash={id}#blockchain_transaction",
+
+    /* Set daemon type. Supported values: default, forknote (Fix block height + 1), bytecoin (ByteCoin Wallet RPC API) */
+    "daemonType": "bytecoin",
+    
+    /* Set Cryptonight algorithm settings.
+    Supported algorithms: cryptonight (default). cryptonight_light and cryptonight_heavy
+    Supported variants for "cryptonight": 0 (Original), 1 (Monero v7), 3 (Stellite / XTL)
+    Supported variants for "cryptonight_light": 0 (Original), 1 (Aeon v7), 2 (IPBC)
+    Supported blob types: 0 (Cryptonote), 1 (Forknote v1), 2 (Forknote v2), 3 (Cryptonote v2 / Masari) */
+    "cnAlgorithm": "cryptonight_pico",
+    "cnVariant": 2,
+    "cnBlobType": 2,
+   
+    /* True to include block.height in job to miner */
+    "includeHeight": true,
+
+    /* Select the RestFul API for Wallet */
+    "restfulApiWallet" : true,
+
+    /* Select the RestFul API for Daemon and Wallet */
+    "restfulApiDaemonAndWallet": false,	
+
+    /* Logging */
+    "logging": {
+
+        "files": {
+            
+            /* Specifies the level of log output verbosity. This level and anything
+            more severe will be logged. Options are: info, warn, or error. */
+            "level": "info",
+
+            /* Directory where to write log files. */
+            "directory": "logs",
+
+            /* How often (in seconds) to append/flush data to the log files. */
+            "flushInterval": 5
+        },
+        "console": {
+            "level": "info",
+            /* Gives console output useful colors. If you direct that output to a log file
+           then disable this feature to avoid nasty characters in the file. */
+            "colors": true
+        }
+    },
+    "hashingUtil": true,
+    "childPools": null,
+
+    /* Modular Pool Server */
+    "poolServer": {
+        "enabled": true,
+        "mergedMining": false,
+        
+        /* Set to "auto" by default which will spawn one process/fork/worker for each CPU
+       core in your system. Each of these workers will run a separate instance of your
+       pool(s), and the kernel will load balance miners using these forks. Optionally,
+       the 'forks' field can be a number for how many forks will be spawned. */
+        "clusterForks": "auto",
+        
+        /* Address where block rewards go, and miner payments come from. */
+        "poolAddress": "Your ZTC Wallet address",
+       
+        /* This is the Integrated address prefix used for miner login validation. */
+        "intAddressPrefix": 4419,
+        
+        /* Poll RPC daemons for new blocks every this many milliseconds. */
+        "blockRefreshInterval": 1000,
+
+         /* How many seconds until we consider a miner disconnected. */
+        "minerTimeout": 900,
+
+        "sslCert": "./cert.pem", // The SSL certificate
+        "sslKey": "./privkey.pem", // The SSL private key
+        "sslCA": "./chain.pem", // The SSL certificate authority chain
+        "ports": [
+            {
+                "port": 11151, // Port for mining apps to connect to
+                "difficulty": 400000, // Initial difficulty miners are set to
+                "desc": "Low end hardware" // Description of port
+            },
+            {
+                "port": 11152,
+                "difficulty": 600000,
+                "desc": "Mid range hardware"
+            },
+            {
+                "port": 11153,
+                "difficulty": 700000,
+                "desc": "High end hardware"
+            },
+            {
+                "port": 11154,
+                "difficulty": 1000000,
+                "desc": "Very hight end hardware"
+            }
+        ],
+        /* Variable difficulty is a feature that will automatically adjust difficulty for
+        individual miners based on their hashrate in order to lower networking and CPU
+        overhead. */
+        "varDiff": {
+            "minDiff": 100, // Minimum difficulty
+            "maxDiff": 5000000, // Maximum difficulty
+            "targetTime": 60, // Try to get 1 share per this many seconds
+            "retargetTime": 30, // Check to see if we should retarget every this many seconds
+            "variancePercent": 30, // Allow time to vary this % from target without retargeting
+            "maxJump": 100 // Limit diff percent increase/decrease in a single retargeting
+        },
+        
+         /* Set payment ID on miner client side by passing <address>.<paymentID> */
+        "paymentId": {
+            "addressSeparator": "+" // Character separator between <address> and <paymentID>
+        },
+        
+	       "separators": [
+            {
+                "value": "+",
+                "desc": "plus"
+            },
+            {
+                "value": ".",
+                "desc": "dot"
+            }
+        ],
+
+        /* Set difficulty on miner client side by passing <address> param with +<difficulty> postfix */
+        "fixedDiff": {
+            "enabled": true,
+            "addressSeparator": "." // Character separator between <address> and <difficulty>
+        },
+        
+        /* Feature to trust share difficulties from miners which can
+        significantly reduce CPU load. */
+        "shareTrust": {
+            "enabled": true,
+            "min": 10, // Minimum percent probability for share hashing
+            "stepDown": 3, // Increase trust probability % this much with each valid share
+            "threshold": 10, // Amount of valid shares required before trusting begins
+            "penalty": 30 // Upon breaking trust require this many valid share before trusting
+        },
+
+        /* If under low-diff share attack we can ban their IP to reduce system/network load. */
+        "banning": {
+            "enabled": true,
+            "time": 600, // How many seconds to ban worker for
+            "invalidPercent": 25, // What percent of invalid shares triggers ban
+            "checkThreshold": 30 // Perform check when this many shares have been submitted
+        },
+
+        /* Slush Mining is a reward calculation technique which disincentivizes pool hopping and 
+        rewards 'loyal' miners by valuing younger shares higher than older shares. Remember
+        adjusting the weight!
+        More about it here: https://mining.bitcoin.cz/help/#!/manual/rewards */
+        "slushMining": {
+            "enabled": false, // Enables slush mining. Recommended for pools catering to professional miners
+            
+            /* Defines how fast the score assigned to a share declines in time. 
+            The value should roughly be equivalent to the average round duration in seconds 
+            divided by 8. When deviating by too much numbers may get too high for JS. */
+            "weight": 300, 
+            "blockTime": 60,
+            "lastBlockCheckRate": 1
+         }
+    },
+
+    /* Module that sends payments to miners according to their submitted shares. */
+    "payments": {
+        "enabled": true,
+        "interval": 120, // How often to run in seconds
+        "maxAddresses": 100, // Split up payments if sending to more than this many addresses
+        "mixin": 3, // Number of transactions yours is indistinguishable from
+        "priority": 0, // The transaction priority
+        "transferFee": 10, // Fee to pay for each transaction
+        "dynamicTransferFee": true, // Enable dynamic transfer fee (fee is multiplied by number of miners)
+        "minerPayFee" : true, // Miner pays the transfer fee instead of pool owner when using dynamic transfer fee
+        "minPayment": 5000, // Miner balance required before sending payment
+        "maxPayment": null, // Maximum miner balance allowed in miner settings 
+        "maxTransactionAmount": 0, // Split transactions by this amount (to prevent "too big transaction" error)
+        "denomination": 100 // Truncate to this precision and store remainder
+    },
+
 ```
