@@ -306,7 +306,7 @@ Explanation for each field:
             "addressSeparator": "+" // Character separator between <address> and <paymentID>
         },
         
-	       "separators": [
+	"separators": [
             {
                 "value": "+",
                 "desc": "plus"
