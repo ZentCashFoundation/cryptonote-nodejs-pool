@@ -128,9 +128,9 @@
         "enabled": true,
         "interval": 30,
         "depth": 20,
-	     "poolFee": 0.0,
-	     "soloFee": 0.0,
-	     "finderReward" : 0.0,
+	"poolFee": 0.0,
+	"soloFee": 0.0,
+	"finderReward" : 0.0,
         "devDonation": 0.5,
         "networkFee": 0.0,
         "fixBlockHeightRPC": false
@@ -169,7 +169,7 @@
         "port": 6379,
         "auth": null,
         "db": 2,
-	     "cleanupInterval": 15
+	"cleanupInterval": 15
     },
 
     "notifications": {
