@@ -161,7 +161,7 @@
     "wallet": {
         "host": "127.0.0.1",
         "port": 21699,
-	     "password": "Wallet RPC Password"
+	"password": "Wallet RPC Password"
     },
 
     "redis": {
