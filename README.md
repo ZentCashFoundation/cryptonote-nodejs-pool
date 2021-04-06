@@ -7,7 +7,7 @@
 ![Version](https://img.shields.io/github/v/release/ZentCashFoundation/cryptonote-nodejs-pool)
 
 
-High performance Node.js (with native C addons) mining pool for CryptoNote based coins. Comes with lightweight example front-end script which uses the pool's AJAX API. Support for Cryptonight (Original, Monero v7, Stellite v7), Cryptonight Light (Original, Aeon v7, IPBC) Cryptonight Fast (Electronero/Crystaleum), Cryptonight Heavy (Ombre), Cryptonight Pico (Zent Cash), Argon2 (Ninjacoin, Bitcoin Nova and Turtlecoin) and RandomX (Monero) algorithms.
+High performance Node.js (with native C addons) mining pool for CryptoNote based coins. Comes with lightweight example front-end script which uses the pool's AJAX API. Support for Cryptonight (Original, Monero v7, Stellite v7), Cryptonight Light (Original, Aeon v7, IPBC) Cryptonight Fast (Electronero/Crystaleum), Cryptonight Heavy (Ombre), Cryptonight Pico (Zent Cash), Argon2 (Ninjacoin, Bitcoin Nova, Turtlecoin) and RandomX (Monero) algorithms.
 
 #### Table of Contents
 * [Features](#features)
@@ -36,8 +36,8 @@ Features
 #### Optimized pool server
 * TCP (stratum-like) protocol for server-push based jobs
 * Compared to old HTTP protocol, this has a higher hash rate, lower network/CPU server load, lower orphan block percent, and less error prone
-* Support for Cryptonight (Original, Monero v7, Stellite v7), Cryptonight Light (Original, Aeon v7, IPBC), Cryptonight Heavy (Ombre), Cryptonight Pico (Zent Cash), Argon2 (Ninjacoin, Bitcoin Nova and Turtlecoin) and RandomX (Monero) algorithms.
-* Custom API to support coins based on Zent Cash, Ninjacoin, Bitcoin Nova and Turtlecoin
+* Support for Cryptonight (Original, Monero v7, Stellite v7), Cryptonight Light (Original, Aeon v7, IPBC), Cryptonight Heavy (Ombre), Cryptonight Pico (Zent Cash), Argon2 (Ninjacoin, Bitcoin Nova, Turtlecoin) and RandomX (Monero) algorithms.
+* Custom API to support coins based on Zent Cash, Ninjacoin, Bitcoin Nova and Turtlecoin (Restful API)
 * IP banning to prevent low-diff share attacks
 * Socket flooding detection
 * Share trust algorithm to reduce share validation hashing CPU load
@@ -165,4 +165,12 @@ git clone https://github.com/ZentCashFoundation/cryptonote-nodejs-pool.git pool
 cd pool
 
 npm update
+```
+
+#### 2) Configuration
+
+Copy the `config_examples/COIN.json` file of your choice to `config.json` then overview each options and change any to match your preferred setup.
+
+Explanation for each field:
+```javascript
 ```
