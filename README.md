@@ -234,22 +234,22 @@ Explanation for each field:
         "console": {
             "level": "info",
             /* Gives console output useful colors. If you direct that output to a log file
-           then disable this feature to avoid nasty characters in the file. */
+             then disable this feature to avoid nasty characters in the file. */
             "colors": true
         }
     },
     "hashingUtil": true,
-    "childPools": null,
+    "childPools": null, // Specific configuration for merged mining
 
     /* Modular Pool Server */
     "poolServer": {
-        "enabled": true,
-        "mergedMining": false,
+        "enabled": true, //Enable or disable the mining service
+        "mergedMining": false, // Enable or disable merged mining
         
         /* Set to "auto" by default which will spawn one process/fork/worker for each CPU
-       core in your system. Each of these workers will run a separate instance of your
-       pool(s), and the kernel will load balance miners using these forks. Optionally,
-       the 'forks' field can be a number for how many forks will be spawned. */
+        core in your system. Each of these workers will run a separate instance of your
+        pool(s), and the kernel will load balance miners using these forks. Optionally,
+        the 'forks' field can be a number for how many forks will be spawned. */
         "clusterForks": "auto",
         
         /* Address where block rewards go, and miner payments come from. */
@@ -274,19 +274,19 @@ Explanation for each field:
                 "desc": "Low end hardware" // Description of port
             },
             {
-                "port": 11152,
-                "difficulty": 600000,
-                "desc": "Mid range hardware"
+                "port": 11152, // Port for mining apps to connect to
+                "difficulty": 600000, // Initial difficulty miners are set to
+                "desc": "Mid range hardware" // Description of port
             },
             {
-                "port": 11153,
-                "difficulty": 700000,
-                "desc": "High end hardware"
+                "port": 11153, // Port for mining apps to connect to
+                "difficulty": 700000, // Initial difficulty miners are set to
+                "desc": "High end hardware" // Description of port
             },
             {
-                "port": 11154,
-                "difficulty": 1000000,
-                "desc": "Very hight end hardware"
+                "port": 11154, // Port for mining apps to connect to
+                "difficulty": 1000000, // Initial difficulty miners are set to
+                "desc": "Very hight end hardware" // Description of port
             }
         ],
         /* Variable difficulty is a feature that will automatically adjust difficulty for
@@ -301,7 +301,7 @@ Explanation for each field:
             "maxJump": 100 // Limit diff percent increase/decrease in a single retargeting
         },
         
-         /* Set payment ID on miner client side by passing <address>.<paymentID> */
+         /* Set payment ID on miner client side by passing <address>+<paymentID> */
         "paymentId": {
             "addressSeparator": "+" // Character separator between <address> and <paymentID>
         },
@@ -317,7 +317,7 @@ Explanation for each field:
             }
         ],
 
-        /* Set difficulty on miner client side by passing <address> param with +<difficulty> postfix */
+        /* Set difficulty on miner client side by passing <address> param with .<difficulty> postfix */
         "fixedDiff": {
             "enabled": true,
             "addressSeparator": "." // Character separator between <address> and <difficulty>
@@ -335,7 +335,7 @@ Explanation for each field:
 
         /* If under low-diff share attack we can ban their IP to reduce system/network load. */
         "banning": {
-            "enabled": true,
+            "enabled": true, // With this option enabled the pool will ban a miner when the miner sends invalid hashes
             "time": 600, // How many seconds to ban worker for
             "invalidPercent": 25, // What percent of invalid shares triggers ban
             "checkThreshold": 30 // Perform check when this many shares have been submitted
@@ -366,6 +366,7 @@ Explanation for each field:
         "priority": 0, // The transaction priority
         "transferFee": 10, // Fee to pay for each transaction
         "dynamicTransferFee": true, // Enable dynamic transfer fee (fee is multiplied by number of miners)
+	"feePerByte": false, //Enables or disables the dynamic fee or fee per byte for transactions
         "minerPayFee" : true, // Miner pays the transfer fee instead of pool owner when using dynamic transfer fee
         "minPayment": 5000, // Miner balance required before sending payment
         "maxPayment": null, // Maximum miner balance allowed in miner settings 
@@ -380,9 +381,9 @@ Explanation for each field:
         "enabled": true,
         "interval": 30, // How often to check block statuses in seconds
         "depth": 20, // Block depth required for a block to unlocked/mature.
-	    "poolFee": 0.5, // 0.5% pool fee (1% total fee total including donations)
-	    "soloFee": 0.0, // Solo fee
-	    "finderReward" : 0.0, // Finder Reward
+	"poolFee": 0.5, // 0.5% pool fee (1% total fee total including donations)
+	"soloFee": 0.0, // Solo fee
+	"finderReward" : 0.0, // Finder Reward
         "devDonation": 0.5, // 0.5% donation to send to pool dev
         "networkFee": 0.0, // Network/Governance fee
         /* Some forknote coins have an issue with block height in RPC request, to fix you can enable this option.
@@ -418,7 +419,7 @@ Explanation for each field:
     "wallet": {
         "host": "127.0.0.1",
         "port": 21699,
-	    "password": "Wallet RPC Password"
+	"password": "Wallet RPC Password"
     },
 
     /* Redis connection info */
@@ -427,7 +428,7 @@ Explanation for each field:
         "port": 6379,
         "auth": null, // If set, client will run redis auth command on connect. Use for remote db
         "db": 2, // Set the REDIS database to use (default to 0)
-	    "cleanupInterval": 15 // Set the REDIS database cleanup interval (in days)
+	 "cleanupInterval": 15 // Set the REDIS database cleanup interval (in days)
     },
 
     /* Pool Notifications */
@@ -475,7 +476,7 @@ Explanation for each field:
 
     /* Email Notifications */
     "email": {
-        "enabled": false,
+        "enabled": false, // Activate and deactivate plugin
         "fromAddress": "your@email.com", // Your sender email
         "transport": "sendmail", // The transport mode (sendmail, smtp or mailgun)
         
@@ -509,7 +510,7 @@ Explanation for each field:
 
     /* Discord channel notifications */
     "discord": {
-        "enabled": false,
+        "enabled": false, // Enable or Disable the bot
         "token": "", // The bot unique authorization token
         "channel": "" // The telegram channel id 
     },
@@ -518,7 +519,7 @@ Explanation for each field:
     See Telegram documentation to setup your bot: https://core.telegram.org/
     bots#3-how-do-i-create-a-bot */
     "telegram": {
-        "enabled": false,
+        "enabled": false, // Enable or Disable the bot
         "botName": "", // The bot user name.
         "token": "", // The bot unique authorization token
         "channel": "", // The telegram channel id 
@@ -528,9 +529,9 @@ Explanation for each field:
         },
         "botCommands": { // Set the telegram bot commands
             "stats": "/stats", // Pool statistics
-            "report": "/report",
-            "notify": "/notify", // Enable telegram notifications
-            "blocks": "/blocks" 
+            "report": "/report", // Enable and disable reports
+            "notify": "/notify", // Enable and disable telegram notifications
+            "blocks": "/blocks"  // Enable and disable warning of new mined block
         }
     },
 
@@ -596,14 +597,14 @@ Explanation for each field:
             "hashrate": {
                 "enabled": true, // Enable data collection and chart displaying in frontend
                 "updateInterval": 180, // How often to get current value
-                "stepInterval": 1800,
-                "maximumPeriod": 86400
+                "stepInterval": 1800, // Chart step interval calculated as average of all updated values
+                "maximumPeriod": 86400 // Chart maximum periods 
             },
             "worker_hashrate": {
                 "enabled": true, // Enable data collection and chart displaying in frontend
                 "updateInterval": 60, // How often to get current value
-                "stepInterval": 60,
-                "maximumPeriod": 86400
+                "stepInterval": 60, // Chart step interval calculated as average of all updated values
+                "maximumPeriod": 86400 // Chart maximum periods 
             },
             "payments": {  // Payment chart uses all user payments data stored in DB
                 "enabled": true // Enable data collection and chart displaying in frontend
