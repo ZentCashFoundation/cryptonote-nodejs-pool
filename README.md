@@ -20,11 +20,9 @@ High performance Node.js (with native C addons) mining pool for CryptoNote based
   * [Customizing your website](#5-customize-your-website)
   * [SSL](#ssl)
   * [Upgrading](#upgrading)
-* [JSON-RPC Commands from CLI](#json-rpc-commands-from-cli)
 * [Monitoring Your Pool](#monitoring-your-pool)
 * [Community Support](#community--support)
 * [Pools Using This Software](#pools-using-this-software)
-* [Referral Links](#referral-links)
 * [Donations](#donations)
 * [Credits](#credits)
 * [License](#license)
@@ -619,3 +617,202 @@ Explanation for each field:
 
 
 ```
+
+#### 3) Start the pool
+
+```bash
+node init.js
+```
+
+The file `config.json` is used by default but a file can be specified using the `-config=file` command argument, for example:
+
+```bash
+node init.js -config=config_backup.json
+```
+
+This software contains four distinct modules:
+* `pool` - Which opens ports for miners to connect and processes shares
+* `api` - Used by the website to display network, pool and miners' data
+* `unlocker` - Processes block candidates and increases miners' balances when blocks are unlocked
+* `payments` - Sends out payments to miners according to their balances stored in redis
+* `chartsDataCollector` - Processes miners and workers hashrate stats and charts
+* `telegramBot`	- Processes telegram bot commands
+
+
+By default, running the `init.js` script will start up all four modules. You can optionally have the script start only start a specific module by using the `-module=name` command argument, for example:
+
+```bash
+node init.js -module=api
+```
+
+[Example screenshot](http://i.imgur.com/SEgrI3b.png) of running the pool in single module mode with tmux.
+
+To keep your pool up, on operating system with systemd, you can create add your pool software as a service.  
+Use this [example](https://github.com/ZentCashFoundation/cryptonote-nodejs-pool/blob/master/deployment/cryptonote-nodejs-pool.service) to create the systemd service `/lib/systemd/system/cryptonote-nodejs-pool.service`
+Then enable and start the service with the following commands : 
+
+```
+sudo systemctl enable cryptonote-nodejs-pool.service
+sudo systemctl start cryptonote-nodejs-pool.service
+```
+
+#### 4) Host the front-end
+
+Simply host the contents of the `website_example` directory on file server capable of serving simple static files.
+
+
+Edit the variables in the `website_example/config.js` file to use your pool's specific configuration.
+Variable explanations:
+
+```javascript
+
+/*  Currency Name */
+var parentCoin = "COIN";
+
+/* Must point to the API setup in your config.json file. */
+var api = "http://poolhost:8117";
+
+/* Contact email address. */
+var email = "support@poolhost.com";
+
+/* Pool Telegram URL. */
+var telegram = "https://t.me/YourPool";
+
+/* Pool Discord URL */
+var discord = "https://discordapp.com/invite/YourPool";
+
+/* Market stat display params from https://www.cryptonator.com/widget */
+var marketCurrencies = ["{symbol}-BTC", "{symbol}-USD", "{symbol}-EUR", "{symbol}-CAD"];
+
+/* Any custom CSS theme for pool frontend */
+var themeCss = "themes/light.css";
+
+/* Default language */
+var defaultLang = 'en';
+
+```
+
+#### 5) Customize your website
+
+The following files are included so that you can customize your pool website without having to make significant changes to `index.html` or other front-end files thus reducing the difficulty of merging updates with your own changes:
+* `custom.css` for creating your own pool style
+* `custom.js` for changing the functionality of your pool website
+
+
+Then simply serve the files via nginx, Apache, Google Drive, or anything that can host static content.
+
+#### SSL
+
+You can configure the API to be accessible via SSL using various methods. Find an example for nginx below:
+
+* Using SSL api in `config.json`:
+
+By using this you will need to update your `api` variable in the `website_example/config.js`. For example:  
+`var api = "https://poolhost:8119";`
+
+* Inside your SSL Listener, add the following:
+
+``` javascript
+location ~ ^/api/(.*) {
+    proxy_pass http://127.0.0.1:8117/$1$is_args$args;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+```
+
+By adding this you will need to update your `api` variable in the `website_example/config.js` to include the /api. For example:  
+`var api = "http://poolhost/api";`
+
+You no longer need to include the port in the variable because of the proxy connection.
+
+* Using his own subdomain, for example `api.poolhost.com`:
+
+```bash
+server {
+    server_name api.poolhost.com
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    
+    ssl_certificate /your/ssl/certificate;
+    ssl_certificate_key /your/ssl/certificate_key;
+
+    location / {
+        more_set_headers 'Access-Control-Allow-Origin: *';
+        proxy_pass http://127.0.01:8117;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+By adding this you will need to update your `api` variable in the `website_example/config.js`. For example:  
+`var api = "//api.poolhost.com";`
+
+You no longer need to include the port in the variable because of the proxy connection.
+
+#### Upgrading
+When updating to the latest code its important to not only `git pull` the latest from this repo, but to also update the Node.js modules, and any config files that may have been changed.
+* Inside your pool directory (where the init.js script is) do `git pull` to get the latest code.
+* Remove the dependencies by deleting the `node_modules` directory with `rm -r node_modules`.
+* Run `npm update` to force updating/reinstalling of the dependencies.
+* Compare your `config.json` to the latest example ones in this repo or the ones in the setup instructions where each config field is explained. You may need to modify or add any new changes.
+
+### Monitoring Your Pool
+
+* To inspect and make changes to redis I suggest using [redis-commander](https://github.com/joeferner/redis-commander)
+* To monitor server load for CPU, Network, IO, etc - I suggest using [Netdata](https://github.com/firehol/netdata)
+* To keep your pool node script running in background, logging to file, and automatically restarting if it crashes - I suggest using [forever](https://github.com/nodejitsu/forever) or [PM2](https://github.com/Unitech/pm2)
+
+Community / Support
+===
+
+* [GitHub Issues](https://github.com/ZentCashFoundation/cryptonote-nodejs-poo/issues)
+
+#### Pools Using This Software
+
+* https://superblockchain.con-ip.com/ztc/
+* https://pool001.zent.cash/
+* https://pool.leviar.io/
+* https://pool.croat.community/
+
+Donations
+---------
+
+Thanks for supporting my works on this project! If you want to make a donation to [SuperBlockchain-Pool](https://github.com/ZentCashFoundation/cryptonote-nodejs-pool/), the developper of this project, you can send any amount of your choice to one of theses addresses:
+
+* Bitcoin (BTC): `17qFGHhPWLQrGsd9k8BUGNdFerJKijaJCa`
+* Bitcoin Cash (BCH): `qq7jengltv0f3rg9qg6llyr2pf4373449ccfgvk33d`,
+* Dash (DASH): `XjTYnPDckSzJxraNc9HAN6zduzetfbehF4`,
+* Ethereum (ETH): `0xECcDf9E1aB9c9B6Bcbd24Dda4B1638507ee6f7D3`,
+* Litecoin (LTC): `LYX2vPD1HDRYPxeLfVUZCq4FUmnKd8d9g1`,
+* Basic Attention Token	(BAT): `0x478dF7ABB09f1c60CeA20E28De06ce0fFa9a572b`,
+* Monero (XMR): `442uRjHUQp66Q2xqXzqfPVdy8qxrQ56aoCJXH7T5D43DUPybhVKTSTpaQiDvrBkd778dik1aRPNkBH79xi5HbTQL8MVfRT7`,
+* Bitcoin Nova (BTN): `ECVVceHwZQaNg7BNuAjJXhbQFJnLcmxyxJ7CXNBnb2M5YUsVMKaAD8ceNHiGSqdS7hJWKLEC38kFeWU6F5dVpLm2QPcLWdj`,
+* Curquity (CIRQ): `cirqgBwr2odjCpFpRtxeoq2Ze8eAcghdMa3z6Adr3bxXMbmghyikrajGy2L8iF4LkQJkLKhkgHA2oH6xm2YQ2cak7MmdiTYrKyc`,
+* Goodness (GNS): `gnsm2mqhwK69bMLnTZYDiTereTETBUbNuGEoY7rguPrfAQvjM7ddpDbMGHDZm3FUia1KXV77rMRPaUuPeCBFPbw314JmS11SEt`,
+* Infinitum-8 (INF): `inf8RHyNSL4283w14VB4XfaqsqDaZPrfNHYVjGwSNL9NXkEFxtxJ4kLdXt8SazvcqpKjvsaEvRfKEXSHBotq2pRvATJ7otPSyG`,
+* Zent Cash (ZTC): `Ze4tc4mTG137cG3i5oa8yLAW4iZvPoRVsEx5dGRhiEcoEWEVCBvc4hB6fcDyqE2FoWPpLWnGGswq19yqsFi1bhDd1XnDmtD6T`,
+* Wechain (WXTC): `WcBawbuLjCDBYZJC473GTtXkzgyEfNAyJTeugBpowcz7fN1ZHeUxfAf8nqVhjiAN9iATfzKhhPpeXfMp5iJwN3j221ubCgxxz`,
+* Secure Cash (SCSX): `Sdj7SuGLYZwfspdSs2BtsUfShoVYczXHX6XWugrH9KuwAFyMqcgGU6cJ4eRKxXsT9dSR8FJ1YVz1BBtJkQWZ7RG42oQd3o1hH`,
+* Qwertycoin (QWC): `QWC1XeuQUHv5rWqZ7cqMzbLSUFJSxbnib4tLJXmYNtXNg8cRSSEEpkE7Ea6CA73Gxz7UXT6sb2Vd42HsMCpXGmbC75n386hgqN`,
+* Nashcash (NACA): `NaCaYZab9aJBuV6Uoz7LG8N9CWJqQu7hTefKxXoAcuFgNgzEgQF26ErWWJAQTika8RjAPzrh7e1kti9jas6FnDga3gyit3rS9j`,
+* Ninjacoin (NINJA): `Ninja137JTSh5YrAc3qwfGZe5mWmUiFxpCCrZGZdyc7mC6FqRmaeLQSNWs8nihacwaJCn5L3uJAzvbArVNBUq96iL25jeYvkVRf3y`,
+* 2ACoin (ARMS): `gunsCdncTB1DM9xeRTBKz5YHoYRpbKn5GVdysCmGM8GaSb55DJrMUw7BdF64nvdb5MeCLG6xJQ956hoJUaVA2Rzp4UgDkeS9so`,
+* Zumcoin (ZUM): `Zum1ygrpgp9gotJyFZKKxF2s4jmLVTrVJRyZVCvQDgeTBzPFfyNmDjY8kY2bihE6oXHM5K8DWagwS7HvPUspaC9gcTjvwJxmMQh`,
+* Ultranote Infiniti (XUNI): `Xuniiirs6Vo8REdUmDf2vXM9PjnWZe6PfToy2sBkLCD1Hn5Dp2CN6G8JTpAMNUV5kB93zqi3GGv3SYPfok39xE7BJkSk74jUsBU`
+
+Credits
+---------
+
+* [fancoder](//github.com/fancoder) - Developper on cryptonote-universal-pool project from which current project is forked.
+* [dvandal](//github.com/dvandal) - Developer of cryptonote-nodejs-pool software
+* [SuperBlockchain-Pool](//github.com/SuperBlockchain-Pool) - Responsible for the cryptonote-nodejs-pool software for Zent Cash
+
+License
+-------
+Released under the GNU General Public License v2
+
+http://www.gnu.org/licenses/gpl-2.0.html
