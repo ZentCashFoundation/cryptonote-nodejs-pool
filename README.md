@@ -667,7 +667,7 @@ Variable explanations:
 ```javascript
 
 /*  Currency Name */
-var parentCoin = "COIN";
+var parentCoin = "coin";
 
 /* Must point to the API setup in your config.json file. */
 var api = "http://poolhost:8117";
@@ -769,7 +769,7 @@ When updating to the latest code its important to not only `git pull` the latest
 Community / Support
 ===
 
-* [GitHub Issues](https://github.com/ZentCashFoundation/cryptonote-nodejs-poo/issues)
+* [GitHub Issues](https://github.com/ZentCashFoundation/cryptonote-nodejs-pool/issues)
 
 #### Pools Using This Software
 
