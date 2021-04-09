@@ -16,7 +16,6 @@
     "restfulApiWallet" : true,
     "restfulApiDaemonAndWallet": false,	
 
-
     "logging": {
         "files": {
             "level": "info",
@@ -28,6 +27,7 @@
             "colors": true
         }
     },
+	
     "hashingUtil": true,
     "childPools": 
         [
@@ -66,6 +66,7 @@
             "enabled": true
             }
         ],
+	
     "poolServer": {
         "enabled": true,
         "mergedMining": true,
