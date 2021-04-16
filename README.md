@@ -20,6 +20,8 @@ High performance Node.js (with native C addons) mining pool for CryptoNote based
   * [Customizing your website](#5-customize-your-website)
   * [SSL](#ssl)
   * [Upgrading](#upgrading)
+* [JSON-RPC API Commands from CLI](#json-rpc-api-commands-from-cli)
+* [JSON-RPC Restful API Commands from CLI](#json-rpc-restful-api-commands-from-cli)
 * [Monitoring Your Pool](#monitoring-your-pool)
 * [Community Support](#community--support)
 * [Pools Using This Software](#pools-using-this-software)
@@ -648,7 +650,7 @@ node init.js -module=api
 [Example screenshot](http://i.imgur.com/SEgrI3b.png) of running the pool in single module mode with tmux.
 
 To keep your pool up, on operating system with systemd, you can create add your pool software as a service.  
-Use this [example](https://github.com/ZentCashFoundation/cryptonote-nodejs-pool/blob/master/deployment/cryptonote-nodejs-pool.service) to create the systemd service `/lib/systemd/system/cryptonote-nodejs-pool.service`
+Use this [example](https://github.com/ZentCashFoundation/cryptonote-nodejs-pool/blob/master/deployment/linux-automation/coins-standard-api/coin-pool.service) to create the systemd service `/lib/systemd/system/coin-pool.service`
 Then enable and start the service with the following commands : 
 
 ```
@@ -759,6 +761,34 @@ When updating to the latest code its important to not only `git pull` the latest
 * Remove the dependencies by deleting the `node_modules` directory with `rm -r node_modules`.
 * Run `npm update` to force updating/reinstalling of the dependencies.
 * Compare your `config.json` to the latest example ones in this repo or the ones in the setup instructions where each config field is explained. You may need to modify or add any new changes.
+
+### JSON-RPC API Commands from CLI
+
+Documentation for JSON-RPC commands can be found here:
+* Daemon https://wiki.bytecoin.org/wiki/JSON_RPC_API
+* Wallet https://wiki.bytecoin.org/wiki/Wallet_JSON_RPC_API
+
+
+Curl can be used to use the JSON-RPC commands from command-line. Here is an example of calling `getblockheaderbyheight` for block 100:
+
+```bash
+curl 127.0.0.1:18081/json_rpc -d '{"method":"getblockheaderbyheight","params":{"height":100}}'
+```
+
+### JSON-RPC Restful API Commands from CLI (Zent Cash, Cirquity, Bitcoin Nova, Turtlecoin...)
+
+* 1- Run daemon with enable-blockexplorer command
+```bash
+./Zentd --enable-blockexplorer 
+```
+* 2- Run the wallet-api with coinbase transaction  
+```bash
+./wallet-api --scan-coinbase-transactions  --rpc-password yourRpcPasssword (Not wallet password)  
+```
+* 3-Open the wallet with Curl command 
+```bash
+curl -X POST "http://127.0.0.1:21699/wallet/open" -H "accept: application/json" -H "X-API-KEY: yourRpcPasssword" -H "Content-Type: application/json" -d "{ \"daemonHost\": \"127.0.0.1\", \"daemonPort\": 21698, \"filename\": \"/your/wallet/file/address/name.wallet\", \"password\": \"YourWalletPassword\"}"
+```
 
 ### Monitoring Your Pool
 
