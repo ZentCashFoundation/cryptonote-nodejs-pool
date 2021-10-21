@@ -21,7 +21,7 @@
 		"domexception": "*",
 		"mailgun.js": "*",
 		"node-telegram-bot-api": "*",
-		"nodemailer": "*",
+		"nodemailer": "6.6.5",
 		"nodemailer-sendmail-transport": "*",
 		"nodemon": "^2.0.7",
 		"redis": "*",
