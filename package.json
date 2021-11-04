@@ -19,7 +19,7 @@
 		"dateformat": "*",
 		"discord.js": "^12.5.1",
 		"domexception": "*",
-		"mailgun.js": "*",
+		"mailgun.js": "3.5.9",
 		"node-telegram-bot-api": "*",
 		"nodemailer": "*",
 		"nodemailer-sendmail-transport": "*",
