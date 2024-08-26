@@ -1,6 +1,6 @@
 {
 	"name": "cryptonote-nodejs-pool",
-	"version": "2.1.5",
+	"version": "2.4.9",
 	"license": "GPL-2.0",
 	"Original author": "Zent Cash Developers",
 	"Maintained by": "SuperBlockchainPool",
@@ -9,17 +9,18 @@
 		"url": "https://github.com/ZentCashFoundation/cryptonote-nodejs-pool.git"
 	},
 	"dependencies": {
-		"async": "3.2.0",
+		"async": "^3.2.0",
 		"base58-native": "*",
 		"bignum": "*",
 		"bufferutil": "*",
 		"cli-color": "*",
-		"cryptoforknote-util": "https://github.com/MoneroOcean/node-cryptoforknote-util",
-		"cryptonight-hashing": "https://github.com/MoneroOcean/node-cryptonight-hashing",
+		"cryptoforknote-util": "git+https://github.com/SuperBlockchain-Pool/node-cryptoforknote-util#nd18",
+		"cryptonight-hashing": "git+https://github.com/SuperBlockchain-Pool/node-cryptonight-hashing#nd18",
 		"dateformat": "4.5.1",
 		"discord.js": "^12.5.1",
 		"domexception": "*",
 		"mailgun.js": "*",
+		"multi-hashing": "git+https://github.com/SuperBlockchain-Pool/node-multi-hashing#nd18",
 		"node-telegram-bot-api": "*",
 		"nodemailer": "*",
 		"nodemailer-sendmail-transport": "*",
@@ -27,9 +28,9 @@
 		"redis": "3.1.2",
 		"socket.io": "3.1.1",
 		"time-ago": "*",
-		"utf-8-validate": "*"
+		"utf-8-validate": "*",
 	},
 	"engines": {
-		"node": ">=8.11.3"
+		"node": ">=12.0.0"
 	}
 }
