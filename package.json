@@ -28,7 +28,7 @@
 		"redis": "3.1.2",
 		"socket.io": "3.1.1",
 		"time-ago": "*",
-		"utf-8-validate": "*",
+		"utf-8-validate": "*"
 	},
 	"engines": {
 		"node": ">=12.0.0"
