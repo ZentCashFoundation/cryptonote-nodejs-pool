@@ -14,10 +14,6 @@ Returns the config, stats of the pool and chart data
 
 Returns the same as `/stats`
 
-#### `/stats_address`
-
-Returns the stats for the address, payments, chart data and all workers for that address
-
 #### `/get_payments`
 
 Returns all payments before `time`
