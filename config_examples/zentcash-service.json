@@ -108,13 +108,14 @@
     "payments": {
         "enabled": true,
         "interval": 120,
-        "maxAddresses": 100,
-        "mixin": 3,
+        "maxAddresses": 4,
+        "mixin": 1,
         "priority": 0,
-        "transferFee": 10,
+        "transferFee": 10000,
         "dynamicTransferFee": true,
+	"feePerByte": true,   
         "minerPayFee" : true,
-        "minPayment": 500,
+        "minPayment": 50000,
         "maxPayment": null,
         "maxTransactionAmount": 0,
         "denomination": 100
@@ -123,13 +124,12 @@
     "blockUnlocker": {
         "enabled": true,
         "interval": 30,
-        "depth": 20,
+        "depth": 10,
 	"poolFee": 0.0,
 	"soloFee": 0.0,
 	"finderReward" : 0.0,
         "devDonation": 0.5,
-        "networkFee": 0.0,
-        "fixBlockHeightRPC": false
+        "networkFee": 0.0
     },
 
     "api": {
@@ -145,8 +145,7 @@
         "sslPort": 8135,
         "sslCert": "./cert.pem",
         "sslKey": "./privkey.pem",
-        "sslCA": "./cert.pem",
-        "trustProxyIP": true
+        "sslCA": "./cert.pem"
     },
 
     "zmq": {
