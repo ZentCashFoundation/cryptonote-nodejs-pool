@@ -108,14 +108,14 @@
     "payments": {
         "enabled": true,
         "interval": 120,
-        "maxAddresses": 100,
-        "mixin": 3,
+        "maxAddresses": 5,
+        "mixin": 1,
         "priority": 0,
         "transferFee": 10000,
         "dynamicTransferFee": true,
 	"feePerByte": true,    
         "minerPayFee" : true,
-        "minPayment": 500,
+        "minPayment": 50000,
         "maxPayment": null,
         "maxTransactionAmount": 0,
         "denomination": 100
@@ -124,7 +124,7 @@
     "blockUnlocker": {
         "enabled": true,
         "interval": 30,
-        "depth": 20,
+        "depth": 10,
 	"poolFee": 0.0,
 	"soloFee": 0.0,
 	"finderReward" : 0.0,
