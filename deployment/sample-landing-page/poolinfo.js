@@ -133,7 +133,7 @@
 
 		// Initialize
 		$(function () {
-			setInterval(updatePools, (30 * 1000));
+			setInterval(updatePools, (60 * 1000));
 			updatePools();
 		});
 
