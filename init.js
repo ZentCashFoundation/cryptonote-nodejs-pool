@@ -1,11 +1,4 @@
- /**
-  * Cryptonite Node.JS Pool
-  * https://github.com/dvandal/cryptonote-nodejs-pool
-  *
-  * Pool initialization script
-  **/
-
- // Load needed modules
+// Load needed modules
  var fs = require('fs');
  var cluster = require('cluster');
  var os = require('os');
@@ -46,7 +39,7 @@
  			require('./lib/blockUnlocker.js');
  			break;
  		case 'paymentProcessor':
-               		require('./lib/paymentProcessor.js');
+            require('./lib/paymentProcessor.js');
  			break;
  		case 'api':
  			require('./lib/api.js');
