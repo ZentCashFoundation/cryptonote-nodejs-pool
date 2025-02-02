@@ -128,9 +128,7 @@
 
 		// Update pools
 		function updatePools () {
-			getPoolStats('zentcash', 'https://superblockchain.con-ip.com:8135');
 			getPoolStats('cirquity', 'https://api-pool.cirquity.com');
-			getPoolStats('bitcoinnova', 'https://superblockchain.con-ip.com:8132');
 		}
 
 		// Initialize
