@@ -16,7 +16,6 @@
     "restfulApiWallet": false,
     "restfulApiDaemonAndWallet": false,
 
-
     "logging": {
         "files": {
             "level": "info",
