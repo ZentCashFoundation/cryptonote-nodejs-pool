@@ -9,19 +9,19 @@
     "blockchainExplorer": "http://explorer.zent.cash/?hash={id}#blockchain_block",
     "transactionExplorer": "http://explorer.zent.cash/?hash={id}#blockchain_transaction",
     "daemonType": "bytecoin",
-    "cnAlgorithm": "cryptonight_pico",
-    "cnVariant": 2,
+    "cnAlgorithm": "argon2",
+    "cnVariant": 0,
     "cnBlobType": 2,
     "includeHeight": true,
-    "restfulApiWallet" : false,
-    "restfulApiDaemonAndWallet": false,	
+    "restfulApiWallet": false,
+    "restfulApiDaemonAndWallet": false,
 
 
     "logging": {
         "files": {
             "level": "info",
             "directory": "logs",
-            "flushInterval": 5
+            "flushInterval": 120
         },
         "console": {
             "level": "info",
@@ -29,13 +29,10 @@
         }
     },
     "hashingUtil": true,
-    "childPools": null,
     "poolServer": {
         "enabled": true,
-        "mergedMining": false,
         "clusterForks": "auto",
         "poolAddress": "Your ZTC Wallet address",
-        "intAddressPrefix": 4419,
         "blockRefreshInterval": 1000,
         "minerTimeout": 900,
         "sslCert": "./cert.pem",
@@ -139,7 +136,7 @@
     "api": {
         "enabled": true,
         "hashrateWindow": 600,
-        "updateInterval": 5,
+        "updateInterval": 40,
         "bindIp": "0.0.0.0",
         "port": 8134,
         "blocks": 30,
@@ -151,6 +148,12 @@
         "sslKey": "./privkey.pem",
         "sslCA": "./cert.pem",
         "trustProxyIP": true
+    },
+
+    "zmq": {
+      "enabled": false,
+      "host": "127.0.0.1",
+      "port": 1
     },
 
     "daemon": {
