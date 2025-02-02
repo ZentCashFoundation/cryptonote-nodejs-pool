@@ -7,7 +7,7 @@
 ![Version](https://img.shields.io/github/v/release/ZentCashFoundation/cryptonote-nodejs-pool)
 
 
-High performance Node.js (with native C addons) mining pool for CryptoNote based coins. Comes with lightweight example front-end script which uses the pool's AJAX API. Support for Cryptonight (Original, Monero v7, Stellite v7), Cryptonight Light (Original, Aeon v7, IPBC) Cryptonight Fast (Electronero/Crystaleum), Cryptonight Heavy (Ombre), Cryptonight Pico (Zent Cash), Argon2 (Ninjacoin, Bitcoin Nova, Turtlecoin) and RandomX (Monero) algorithms.
+High performance Node.js (with native C addons) mining pool for CryptoNote based coins. Comes with lightweight example front-end script which uses the pool's AJAX API. Support for Cryptonight (Original, Monero v7, Stellite v7), Cryptonight Light (Original, Aeon v7, IPBC) Cryptonight Fast (Electronero/Crystaleum), Cryptonight Heavy (Ombre), Cryptonight Pico, Argon2 (Zent Cash, Bitcoin Nova) and RandomX (Monero) algorithms.
 
 #### Table of Contents
 * [Features](#features)
@@ -64,7 +64,7 @@ Features
 #### Mined blocks explorer
 * Mined blocks table with block status (pending, confirmed, and orphaned)
 * Blocks luck (shares/difficulty) statistics
-* Universal blocks and transactions explorer based on [chainradar.com](http://chainradar.com)
+* Universal blocks and transactions explorer
 
 #### Smart payment processing
 * Splintered transactions to deal with max transaction size
@@ -104,15 +104,14 @@ Usage
 
 #### Requirements
 * Coin daemon(s) (find the coin's repo and build latest version from source)
-* [Node.js](http://nodejs.org/) v11.0+
+* [Node.js](http://nodejs.org/) v18.0+
   * For Ubuntu: 
  ```
-  curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash
+  sudo apt-get install build-essential libssl-dev curl
+  curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash
   sudo apt-get install -y nodejs
  ```
-  * Or use NVM(https://github.com/creationix/nvm) for debian/ubuntu.
-
-
+  
 * [Redis](http://redis.io/) key-value store v2.6+ 
   * For Ubuntu: 
 ```
@@ -139,6 +138,11 @@ echo 1024 > /proc/sys/net/core/somaxconn
 * libsodium  
   * For Ubuntu: `sudo apt-get install libsodium-dev`
 
+* libgmp-dev
+  * For Ubuntu: `sudo apt-get install libgmp-dev`
+
+* build-essential
+  * For Ubuntu: `sudo apt-get install build-essential`
 
 ##### Seriously
 Those are legitimate requirements. If you use old versions of Node.js or Redis that may come with your system package manager then you will have problems. Follow the linked instructions to get the last stable versions.
@@ -203,8 +207,8 @@ Explanation for each field:
     Supported variants for "cryptonight": 0 (Original), 1 (Monero v7), 3 (Stellite / XTL)
     Supported variants for "cryptonight_light": 0 (Original), 1 (Aeon v7), 2 (IPBC)
     Supported blob types: 0 (Cryptonote), 1 (Forknote v1), 2 (Forknote v2), 3 (Cryptonote v2 / Masari) */
-    "cnAlgorithm": "cryptonight_pico",
-    "cnVariant": 2,
+    "cnAlgorithm": "argon2",
+    "cnVariant": 0,
     "cnBlobType": 2,
    
     /* True to include block.height in job to miner */
@@ -256,7 +260,7 @@ Explanation for each field:
         "poolAddress": "Your ZTC Wallet address",
        
         /* This is the Integrated address prefix used for miner login validation. */
-        "intAddressPrefix": 4419,
+        "intAddressPrefix": null,
         
         /* Poll RPC daemons for new blocks every this many milliseconds. */
         "blockRefreshInterval": 1000,
@@ -804,7 +808,6 @@ Community / Support
 #### Pools Using This Software
 
 * https://superblockchain.con-ip.com/ztc/
-* https://pool001.zent.cash/
 * https://pool.leviar.io/
 * https://pool.croat.community/
 
@@ -818,21 +821,6 @@ Thanks for supporting my works on this project! If you want to make a donation t
 * Dash (DASH): `XjTYnPDckSzJxraNc9HAN6zduzetfbehF4`
 * Ethereum (ETH): `0xECcDf9E1aB9c9B6Bcbd24Dda4B1638507ee6f7D3`
 * Litecoin (LTC): `LYX2vPD1HDRYPxeLfVUZCq4FUmnKd8d9g1`
-* Basic Attention Token	(BAT): `0x478dF7ABB09f1c60CeA20E28De06ce0fFa9a572b`
-* Monero (XMR): `442uRjHUQp66Q2xqXzqfPVdy8qxrQ56aoCJXH7T5D43DUPybhVKTSTpaQiDvrBkd778dik1aRPNkBH79xi5HbTQL8MVfRT7`
-* Bitcoin Nova (BTN): `ECVVceHwZQaNg7BNuAjJXhbQFJnLcmxyxJ7CXNBnb2M5YUsVMKaAD8ceNHiGSqdS7hJWKLEC38kFeWU6F5dVpLm2QPcLWdj`
-* Curquity (CIRQ): `cirqgBwr2odjCpFpRtxeoq2Ze8eAcghdMa3z6Adr3bxXMbmghyikrajGy2L8iF4LkQJkLKhkgHA2oH6xm2YQ2cak7MmdiTYrKyc`
-* Goodness (GNS): `gnsm2mqhwK69bMLnTZYDiTereTETBUbNuGEoY7rguPrfAQvjM7ddpDbMGHDZm3FUia1KXV77rMRPaUuPeCBFPbw314JmS11SEt`
-* Infinitum-8 (INF): `inf8RHyNSL4283w14VB4XfaqsqDaZPrfNHYVjGwSNL9NXkEFxtxJ4kLdXt8SazvcqpKjvsaEvRfKEXSHBotq2pRvATJ7otPSyG`
-* Zent Cash (ZTC): `Ze4tc4mTG137cG3i5oa8yLAW4iZvPoRVsEx5dGRhiEcoEWEVCBvc4hB6fcDyqE2FoWPpLWnGGswq19yqsFi1bhDd1XnDmtD6T`
-* Wechain (WXTC): `WcBawbuLjCDBYZJC473GTtXkzgyEfNAyJTeugBpowcz7fN1ZHeUxfAf8nqVhjiAN9iATfzKhhPpeXfMp5iJwN3j221ubCgxxz`
-* Secure Cash (SCSX): `Sdj7SuGLYZwfspdSs2BtsUfShoVYczXHX6XWugrH9KuwAFyMqcgGU6cJ4eRKxXsT9dSR8FJ1YVz1BBtJkQWZ7RG42oQd3o1hH`
-* Qwertycoin (QWC): `QWC1XeuQUHv5rWqZ7cqMzbLSUFJSxbnib4tLJXmYNtXNg8cRSSEEpkE7Ea6CA73Gxz7UXT6sb2Vd42HsMCpXGmbC75n386hgqN`
-* Nashcash (NACA): `NaCaYZab9aJBuV6Uoz7LG8N9CWJqQu7hTefKxXoAcuFgNgzEgQF26ErWWJAQTika8RjAPzrh7e1kti9jas6FnDga3gyit3rS9j`
-* Ninjacoin (NINJA): `Ninja137JTSh5YrAc3qwfGZe5mWmUiFxpCCrZGZdyc7mC6FqRmaeLQSNWs8nihacwaJCn5L3uJAzvbArVNBUq96iL25jeYvkVRf3y`
-* 2ACoin (ARMS): `gunsCdncTB1DM9xeRTBKz5YHoYRpbKn5GVdysCmGM8GaSb55DJrMUw7BdF64nvdb5MeCLG6xJQ956hoJUaVA2Rzp4UgDkeS9so`
-* Zumcoin (ZUM): `Zum1ygrpgp9gotJyFZKKxF2s4jmLVTrVJRyZVCvQDgeTBzPFfyNmDjY8kY2bihE6oXHM5K8DWagwS7HvPUspaC9gcTjvwJxmMQh`
-* Ultranote Infiniti (XUNI): `Xuniiirs6Vo8REdUmDf2vXM9PjnWZe6PfToy2sBkLCD1Hn5Dp2CN6G8JTpAMNUV5kB93zqi3GGv3SYPfok39xE7BJkSk74jUsBU`
 
 Credits
 ---------
@@ -840,9 +828,3 @@ Credits
 * [fancoder](//github.com/fancoder) - Developper on cryptonote-universal-pool project from which current project is forked.
 * [dvandal](//github.com/dvandal) - Developer of cryptonote-nodejs-pool software
 * [SuperBlockchain-Pool](//github.com/SuperBlockchain-Pool) - Responsible for the cryptonote-nodejs-pool software for Zent Cash
-
-License
--------
-Released under the GNU General Public License v2
-
-http://www.gnu.org/licenses/gpl-2.0.html
