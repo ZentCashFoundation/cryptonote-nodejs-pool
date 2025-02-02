@@ -39,7 +39,7 @@
  			require('./lib/blockUnlocker.js');
  			break;
  		case 'paymentProcessor':
-            require('./lib/paymentProcessor.js');
+            		require('./lib/paymentProcessor.js');
  			break;
  		case 'api':
  			require('./lib/api.js');

@@ -23,7 +23,8 @@ jobs:
           
       - name: Install Dependencies 
         run: |
-          sudo apt-get install libssl-dev libboost-all-dev libsodium-dev
-      - name: NPM 
+          sudo apt-get install libssl-dev libboost-all-dev libsodium-dev build-essential
+          
+      - name: Install Dependencies NPM 
         run: |
           npm install

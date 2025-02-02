@@ -96,9 +96,6 @@
         "invalidPercent": 5,
         "checkThreshold": 30
       },
-      "permanentBan": {
-        "Ze3H6eAwAGp9Hp6EDaYmumRfE4HbdrRjk3n3Xz5Ar6Ef9MB9uXPRpmqX2ef5GaMbqt8vuJfPtCKfh1VyPGnhzzB43BxDrmPkb": "Ban Address. Hash Attack Detected."
-      },
       "slushMining": {
         "enabled": false,
         "weight": 300,
