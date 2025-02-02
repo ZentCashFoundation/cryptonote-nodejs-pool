@@ -1,12 +1,14 @@
-var parentCoin = "COIN";
-var api = "http://poolhost:8117";
+var api = "https://your-api.pool.com/api";
+let parentCoin = "nameCoin";
 
-var email = "support@poolhost.com";
-var telegram = "https://t.me/YourPool";
-var discord = "https://discordapp.com/invite/YourPool";
+var email = "";
+var telegram = "";
+var discord = "";
+var facebook = "";
+var twitter = "";
+var instagram = "";
 
-var marketCurrencies = ["{symbol}-BTC", "{symbol}-USD", "{symbol}-EUR", "{symbol}-CAD"];
+var marketCurrencies = ["{symbol}-BTC", "{symbol}-USDT"];
 
 var themeCss = "themes/default.css";
-var defaultLang = "en";
-
+var defaultLang = 'en';

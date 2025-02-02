@@ -2110,40 +2110,67 @@ workerstats methods
 */
 
 let home_GraphSettings = {
-    type: 'line',
-    width: '100%',
-    height: '140',
-    lineColor: '#03a9f4',
-    fillColor: 'rgba(3, 169, 244, .4)',
-    spotColor: null,
-    minSpotColor: null,
-    maxSpotColor: null,
-    highlightLineColor: '#236d26',
-    spotRadius: 3,
-    chartRangeMin: 0,
-    drawNormalOnTop: false,
-    tooltipFormat: '<b>{{y}}</b> &ndash; {{offset:names}}'
+	type: 'line',
+	width: '100%',
+	height: '140',
+	lineColor: '#03a9f4',
+	fillColor: 'rgba(3, 169, 244, .4)',
+	spotColor: null,
+	minSpotColor: null,
+	maxSpotColor: null,
+	highlightLineColor: '#236d26',
+	spotRadius: 3,
+	chartRangeMin: 0,
+	drawNormalOnTop: false,
+	tooltipFormat: '<b>{{y}}</b> &ndash; {{offset:names}}'
 };
 
-function home_CreateCharts(data) {
-    if (data.hasOwnProperty("charts")) {
-        var graphData = {
-            hashrate: home_GetGraphData(data.charts.hashrate),
-            diff: home_GetGraphData(data.charts.difficulty),
-            miners: home_GetGraphData(data.charts.miners),
-            workers: home_GetGraphData(data.charts.workers)
-        };
+function home_CreateCharts (data) {
+	if (data.hasOwnProperty("charts")) {
+		var graphData = {
+			hashrate: {
+				data: [home_GetGraphData(data.charts.hashrate), home_GetGraphData(data.charts.hashrateSolo)],
+				options: {
+					lineColor: 'orange'
+				}
+			},
+			diff: {
+				data: [home_GetGraphData(data.charts.difficulty)]
+			},
+			miners: {
+				data: [home_GetGraphData(data.charts.miners), home_GetGraphData(data.charts.minersSolo)],
+				options: {
+					lineColor: 'orange'
+				}
+			},
+			workers: {
+				data: [home_GetGraphData(data.charts.workers), home_GetGraphData(data.charts.workersSolo)],
+				options: {
+					lineColor: 'orange'
+				}
+			},
+		};
 
-        for(var graphType in graphData) {
-            if(graphData[graphType].values.length > 1) {
-                var settings = jQuery.extend({}, home_GraphSettings);
-                settings.tooltipValueLookups = {names: graphData[graphType].names};
-                var $chart = $('[data-chart=' + graphType + '] .chart');
-                $chart.closest('.poolChart').show();
-                $chart.sparkline(graphData[graphType].values, settings);
-            }
-        }
-    }
+		for (var graphType in graphData) {
+			if (graphData[graphType].data[0].values.length > 1) {
+				var settings = jQuery.extend({}, home_GraphSettings);
+				settings.tooltipValueLookups = {
+					names: graphData[graphType].data[0].names
+				};
+				var $chart = $('[data-chart=' + graphType + '] .chart');
+				$chart.closest('.poolChart')
+					.show();
+				settings.tooltipFormat = graphData[graphType].data[1] ? '<span style="color:{{color}}">PROP: {{y}}</span> &ndash; {{offset:names}}' : '<span>{{y}}</span> &ndash; {{offset:names}}'
+				$chart.sparkline(graphData[graphType].data[0].values, settings);
+				if (graphData[graphType].data[1]) {
+					settings.composite = true
+					settings.lineColor = graphData[graphType].options.lineColor
+					settings.tooltipFormat = '<span style="color:orange">SOLO: {{y}}</span> &ndash; {{offset:names}}'
+					$chart.sparkline(graphData[graphType].data[1].values, settings);
+				}
+			}
+		}
+	}
 }
 
 // Get chart data
@@ -2212,11 +2239,16 @@ function home_InitTemplate(parentStats, siblingStats) {
     }
 
 
+
+    
+
+
     updateText(`networkHashrate${coin}`, getReadableHashRateString(parentStats.network.difficulty / parentStats.config.coinDifficultyTarget) + '/sec');
     updateText(`networkDifficulty${coin}`, formatNumber(parentStats.network.difficulty.toString(), ' '));
     updateText(`blockchainHeight${coin}`, formatNumber(parentStats.network.height.toString(), ' '));
-    updateText(`networkLastReward${coin}`, getReadableCoin(parentStats, parentStats.lastblock.reward));
-
+    let rewardMinusNetworkFee = parentStats.lastblock.reward - (parentStats.lastblock.reward * (parentStats.config.networkFee ? parentStats.config.networkFee / 100 : 0))
+    updateText(`networkLastReward${coin}`, getReadableCoin(parentStats, rewardMinusNetworkFee));
+    // updateText(`networkLastReward${coin}`, getReadableCoin(parentStats, parentStats.lastblock.reward));
 
 
     Object.keys(siblingStats).forEach(key => {
@@ -2273,12 +2305,75 @@ function home_InitTemplate(parentStats, siblingStats) {
     let lastHash = updateText('lastHash', parentStats.lastblock.hash)
     if (lastHash)
         lastHash.setAttribute('href', getBlockchainUrl(parentStats.lastblock.hash, parentStats));
-
-
+    
     updateText('poolHashrate', `PROP: ${getReadableHashRateString(parentStats.pool.hashrate)}/sec`);
     updateText('poolHashrateSolo', `SOLO: ${getReadableHashRateString(parentStats.pool.hashrateSolo)}/sec`);
+      
+    updateText(`priceExchangeParent`, parentStats.health[parentStats.config.coin].price + ` ` + parentStats.config.symbol +  `/` + parentStats.config.priceCurrency);
+ 
 
+    function updateExchangeInfo() {
+        const priceExchangeElement = document.getElementById('priceExchange');
+        
+        priceExchangeElement.innerHTML = '';
 
+        const parentStatsInfo = parentStats;      
+        const parentSymbol = parentStatsInfo.config.symbol;
+        const parentPrice = parentStatsInfo.health[parentStatsInfo.config.coin].price;
+        const parentCurrency = parentStatsInfo.config.priceCurrency;
+
+        const parentDivElement = document.createElement('span');
+        parentDivElement.className = 'coinexchange';
+        
+        const parentLabelElement = document.createElement('span');
+        parentLabelElement.className = 'value2';
+        parentLabelElement.innerText = parentStatsInfo.config.priceSource.toUpperCase() + ': ';
+        
+        const parentSpanElement = document.createElement('span');
+        parentSpanElement.className = 'value2';
+        parentSpanElement.innerText = `${parentPrice} ${parentSymbol}/${parentCurrency}`;
+        
+        parentDivElement.appendChild(parentLabelElement);
+        parentDivElement.appendChild(parentSpanElement);
+        
+        priceExchangeElement.appendChild(parentDivElement);
+
+        Object.keys(mergedStats).forEach(coinKey => {
+            const childStats = mergedStats[coinKey];
+            const childPrice = childStats.health[childStats.config.coin].price;
+            const childSymbol = childStats.config.symbol;
+            const childPriceSource = childStats.config.priceSource;
+            const childCurrency = childStats.config.priceCurrency;
+
+            const divElement = document.createElement('span');
+            divElement.className = 'coinexchange';  
+            
+            const labelElement = document.createElement('span');
+            labelElement.className = 'value2';
+            labelElement.innerText = childPriceSource.toUpperCase() + ': ';
+            
+            const spanElement = document.createElement('span');
+            spanElement.id = `priceExchange${coinKey}`;
+            spanElement.className = 'value2';
+            spanElement.innerText = formatNumber(`${childPrice} ${childSymbol}/${childCurrency}`);
+            
+            divElement.appendChild(labelElement);
+            divElement.appendChild(spanElement);
+        
+            priceExchangeElement.appendChild(divElement);
+        });
+    }
+
+    setInterval(updateExchangeInfo, 120000);
+
+    updateExchangeInfo();
+
+    const currentTitle = document.title;
+    document.title = `${currentTitle} - ${parentStats.config.coin}`;
+
+    updateText ('coinname_1', parentStats.config.coin);
+    updateText ('coinname_2', parentStats.config.coin);
+       
     var hashPowerSolo = parentStats.pool.hashrateSolo / (parentStats.network.difficulty / parentStats.config.coinDifficultyTarget) * 100;
     updateText ('hashPowerSolo', hashPowerSolo.toFixed(2) + '%');
 
