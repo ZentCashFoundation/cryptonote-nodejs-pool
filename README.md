@@ -551,12 +551,6 @@ Explanation for each field:
         }
     },
 
-    /* Prices settings for market and price charts */
-    "prices": {
-        "source": "coingecko", // Exchange (supported values: cryptonator, crex24, stocks.exchange)
-        "currency": "USD" // Default currency
-    },
-
     /* Collect pool statistics to display in frontend charts  */
     "charts": {
         "pool": {
@@ -578,23 +572,11 @@ Explanation for each field:
                 "stepInterval": 10800, // Chart step interval calculated as average of all updated values
                 "maximumPeriod": 604800 // Chart maximum periods 
             },
-            "price": {
-                "enabled": true, // Enable data collection and chart displaying in frontend
-                "updateInterval": 1800, // How often to get current value
-                "stepInterval": 10800, // Chart step interval calculated as average of all updated values
-                "maximumPeriod": 604800 // Chart maximum periods 
-            },
-	    "miners": {
+	        "miners": {
                 "enabled": true, // Enable data collection and chart displaying in frontend
                 "updateInterval": 60, // How often to get current value
                 "stepInterval": 1800, // Chart step interval calculated as average of all updated values
                 "maximumPeriod": 8640 // Chart maximum periods 
-            },
-            "profit": {
-                "enabled": true, // Enable data collection and chart displaying in frontend
-                "updateInterval": 1800, // How often to get current value
-                "stepInterval": 10800, // Chart step interval calculated as average of all updated values
-                "maximumPeriod": 604800 // Chart maximum periods 
             }
         },
         "user": { // Chart data displayed in user stats block
@@ -686,9 +668,6 @@ var telegram = "https://t.me/YourPool";
 
 /* Pool Discord URL */
 var discord = "https://discordapp.com/invite/YourPool";
-
-/* Market stat display params from https://www.cryptonator.com/widget */
-var marketCurrencies = ["{symbol}-BTC", "{symbol}-USD", "{symbol}-EUR", "{symbol}-CAD"];
 
 /* Any custom CSS theme for pool frontend */
 var themeCss = "themes/light.css";
