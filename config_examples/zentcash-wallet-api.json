@@ -272,62 +272,45 @@
         }
     },
 
-    "prices": {
-        "source": "coingecko",
-        "currency": "USD"
-    },
-
     "charts": {
         "pool": {
             "hashrate": {
                 "enabled": true,
-                "updateInterval": 60,
-                "stepInterval": 1800,
-                "maximumPeriod": 86400
+                "updateInterval": 600,
+                "stepInterval": 180,
+                "maximumPeriod": 129600
             },
             "workers": {
                 "enabled": true,
-                "updateInterval": 60,
-                "stepInterval": 1800,
-                "maximumPeriod": 86400
+                "updateInterval": 600,
+                "stepInterval": 180,
+                "maximumPeriod": 129600
             },
             "difficulty": {
                 "enabled": true,
-                "updateInterval": 1800,
-                "stepInterval": 10800,
-                "maximumPeriod": 604800
-            },
-            "price": {
-                "enabled": true,
-                "updateInterval": 1800,
-                "stepInterval": 10800,
+                "updateInterval": 600,
+                "stepInterval": 180,
                 "maximumPeriod": 604800
             },
 	    "miners": {
                 "enabled": true,
-                "updateInterval": 60,
-                "stepInterval": 1800,
-                "maximumPeriod": 8640
-            },
-            "profit": {
-                "enabled": true,
-                "updateInterval": 1800,
-                "stepInterval": 10800,
-                "maximumPeriod": 604800
+                "updateInterval": 600,
+                "stepInterval": 180,
+                "maximumPeriod": 129600
             }
         },
         "user": {
             "hashrate": {
                 "enabled": true,
-                "updateInterval": 180,
-                "stepInterval": 1800,
-                "maximumPeriod": 86400
+                "updateInterval": 600,
+                "stepInterval": 180,
+                "maximumPeriod": 129600
             },
             "worker_hashrate": {
                 "enabled": true,
-                "updateInterval": 60,
-                "stepInterval": 60,
-                "maximumPeriod": 86400
+                "updateInterval": 600,
+                "stepInterval": 180,
+                "maximumPeriod": 129600
             },
             "payments": {
                 "enabled": true
