@@ -30,14 +30,6 @@ Arguments:
 
 * _`height`_: Block height
 
-#### `/get_market`
-
-Returns the market data
-
-Arguments:
-
-* _`tickers[]`_: Tickers (can be used multiple times in the request)
-
 #### `/get_top10miners`
 
 Returns the top 10 miners
