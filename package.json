@@ -1,6 +1,6 @@
 {
 	"name": "cryptonote-nodejs-pool",
-	"version": "2.6.0",
+	"version": "2.6.1",
 	"license": "GPL-2.0",
 	"original author": "Zent Cash Developers",
 	"maintained by": "SuperBlockchain Pool",
@@ -15,7 +15,7 @@
 		"bufferutil": "*",
 		"cli-color": "*",
 		"cryptoforknote-util": "git+https://github.com/SuperBlockchain-Pool/node-cryptoforknote-util.git#nd20",
-		"cryptonight-hashing": "git+https://github.com/SuperBlockchain-Pool/node-cryptonight-hashing.git#nd20-arm",
+		"cryptonight-hashing": "git+https://github.com/MoneroOcean/node-cryptonight-hashing.git",
 		"dateformat": "4.5.1",
 		"discord.js": "^14.17.3",
 		"domexception": "*",
