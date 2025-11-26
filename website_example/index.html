@@ -57,7 +57,7 @@
                 </a></li>
 
                 <li><a class="hot_link" data-page="market.html" href="#market">
-                    <i class="fa fa-bank"></i> <span data-tkey="market">Calculator / Market</span>
+                    <i class="fa fa-bank"></i> <span data-tkey="market">Calculator</span>
                 </a></li>
 
                 <li><a class="hot_link" data-page="top10miners.html" href="#top10miners">
@@ -72,10 +72,6 @@
                     <i class="fa fa-envelope"></i>Support <span class="caret"></span></a>
                     <ul id="contact"class="dropdown-menu contact"></ul>
                 </li>
-
-                <li><a class="hot_link" href="/">
-                    <i class="fa fa-share invert"></i><span data-tkey="return-home">Return Home Page</span>
-                </a></li> 
                     
             </ul>
    
@@ -214,9 +210,6 @@ function loadLiveStats(reload) {
 
     Object.keys(mergedApis).some(key => {
         let apiUrl = `${mergedApis[key].api}/stats`
-        // if (xhrLiveStats[key]){
-        //     xhrLiveStats[key].abort();
-        // }
 
         $.get(apiUrl, function(data){
             updateLiveStats(data, key);
